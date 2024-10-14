@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.ecommercethree.ui.screens.auth.SignInRoute
 import com.example.ecommercethree.ui.screens.auth.SignUpRoute
 import com.example.ecommercethree.ui.screens.splash.SplashScreen
 
@@ -19,14 +20,26 @@ fun AppNavHost(
             SplashScreen(
 
                 navigateToHomeScreen = {
-                    navController.navigate(SignUp.route)
+                    navController.navigate(SignIn.route)
                 },
             )
         }
+
+        composable(SignIn.route) {
+            SignInRoute(
+                onGoSignUpButtonClicked = {
+                    navController.navigate(SignUp.route)
+                },
+                navigateToHomeScreen = {
+//                    navController.navigate(Home.route)
+                },
+            )
+        }
+
         composable(SignUp.route) {
             SignUpRoute(
                 navigateToSignInScreen = {
-//                    navController.navigate(SignIn.route)
+                    navController.navigate(SignIn.route)
                 },
             )
         }

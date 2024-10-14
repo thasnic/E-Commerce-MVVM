@@ -12,3 +12,6 @@ object Splash : AppDestinations {
 object SignUp : AppDestinations {
     override val route = "signUp"
 }
+object SignIn : AppDestinations {
+    override val route = "signIn"
+}

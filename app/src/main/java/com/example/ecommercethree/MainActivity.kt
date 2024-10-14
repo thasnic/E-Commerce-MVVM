@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.ecommercethree.navigation.AppNavHost
+import com.example.ecommercethree.navigation.SignIn
 import com.example.ecommercethree.navigation.SignUp
 import com.example.ecommercethree.navigation.Splash
 import com.example.ecommercethree.ui.theme.EcommerceThreeTheme
@@ -63,8 +64,7 @@ fun App(
         val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         when (navBackStackEntry?.destination?.route) {
-//            SignIn.route,
-            SignUp.route, Splash.route -> bottomBarState.value = false
+            SignIn.route, SignUp.route, Splash.route -> bottomBarState.value = false
             else -> bottomBarState.value = true
         }
 
