@@ -46,7 +46,7 @@ fun SignInRoute(
 //    }
     SignInScreen(
         onGoSignUpButtonClicked = onGoSignUpButtonClicked,
-//        onSignInButtonClicked = onSignInButtonClicked,
+        onSignInButtonClicked = navigateToHomeScreen,
     )
 
 //    when (firebaseLoginState) {
@@ -66,7 +66,7 @@ fun SignInRoute(
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SignInScreen(
-//    onSignInButtonClicked: (FirebaseSignInUserEntity) -> Unit,
+    onSignInButtonClicked: () -> Unit,
     onGoSignUpButtonClicked: () -> Unit,
 ){
     var showSnackbar by remember {
@@ -150,12 +150,12 @@ fun SignInScreen(
                     email.isNotEmpty() &&
                     password.isNotEmpty()
                 ) {
-//                    onSignInButtonClicked(
+                    onSignInButtonClicked(
 //                        FirebaseSignInUserEntity(
 //                            email = email,
 //                            password = password,
 //                        ),
-//                    )
+                    )
                 } else {
                     keyboardController?.hide()
                     showSnackbar = true
