@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.ecommercethree.navigation.AppBottomNavBar
 import com.example.ecommercethree.navigation.AppNavHost
 import com.example.ecommercethree.navigation.SignIn
 import com.example.ecommercethree.navigation.SignUp
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    App()
+                    App(badgeCount = 5)
                 }
             }
         }
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
 fun App(
     modifier: Modifier = Modifier,
 //    appState: EcommerceAppState = rememberEcommerceAppState(),
-//    badgeCount: Int,
+    badgeCount: Int,
 //    onBadgeCountChange: (Int) -> Unit
 ){
     Surface(
@@ -68,8 +69,25 @@ fun App(
             else -> bottomBarState.value = true
         }
 
-        Scaffold {
-            paddingValues ->
+//        Scaffold {
+//            paddingValues ->
+//            AppNavHost(
+//                navController = navController,
+//                modifier = Modifier.padding(paddingValues),
+////                onBadgeCountChange = onBadgeCountChange,
+//            )
+//        }
+        Scaffold(
+            bottomBar = {
+                if (bottomBarState.value) {
+                    AppBottomNavBar(
+                        navController = navController,
+                        bottomBarState = bottomBarState,
+                        badgeState = badgeCount,
+                    )
+                }
+            },
+        ) { paddingValues ->
             AppNavHost(
                 navController = navController,
                 modifier = Modifier.padding(paddingValues),

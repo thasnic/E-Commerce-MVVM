@@ -121,15 +121,15 @@ fun SuccessScreen(
             placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
         ) {
         }
-//        CategoryList(
-//            categories = categoryUiData,
-//            onCategoryClicked = onCategoryClicked,
-//        )
-//
-//        ProductList(
-//            products = productUiData,
-//            onProductClicked = onProductClicked,
-//        )
+        CategoryList(
+            categories = categoryUiData,
+            onCategoryClicked = onCategoryClicked,
+        )
+
+        ProductList(
+            products = productUiData,
+            onProductClicked = onProductClicked,
+        )
     }
 }
 @Preview
