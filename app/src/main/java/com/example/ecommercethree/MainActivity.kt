@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    App(badgeCount = 5)
+                    App(badgeCount =5 )
                 }
             }
         }
