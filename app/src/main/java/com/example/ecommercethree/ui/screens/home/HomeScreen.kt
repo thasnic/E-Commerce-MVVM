@@ -28,23 +28,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Observer
 import com.example.ecommercethree.R
 import com.example.ecommercethree.common.ScreenState
+import com.example.ecommercethree.data.dto.CategoriesItem
 import com.example.ecommercethree.data.dto.Product
+import com.example.ecommercethree.ui.Loading
 import com.example.ecommercethree.ui.uiData.ProductUiData
 @Composable
 fun HomeRoute(
     onProductClicked: (ProductUiData) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    viewModel.getAllProducts()
+//    viewModel.getAllProducts()
+//    viewModel.getAllCategory()
+//    viewModel.getProductsByCategory("beauty")
     val a = viewModel.products.observeForever{
-
         Log.d("TAGbbbbb==>", "HomeRoute: "+it)
     }
     val productState by viewModel.products.observeAsState(initial = ScreenState.Loading)
-//    val categoryState by viewModel.categories.observeAsState(initial = ScreenState.Loading)
-//    val onCategoryClicked = { category: String ->
-//        viewModel.getProductsByCategory(category)
-//    }
+    val categoryState by viewModel.categories.observeAsState(initial = ScreenState.Loading)
+    Log.d("TAG", "HomeRoute: Category"+categoryState)
+    val onCategoryClicked = { category: String ->
+        viewModel.getProductsByCategory(category)
+        println("clickedaaaaaaaaaaaa"+category)
+
+//        Log.d("TAG", "HomeRoute: clicked")
+    }
     var searchQuery by remember { mutableStateOf("") }
     val onSearchTextChanged: (String) -> Unit = { newSearchQuery ->
         searchQuery = newSearchQuery
@@ -54,9 +61,9 @@ fun HomeRoute(
     }
     HomeScreen(
         productState = productState,
-//        categoryState = categoryState,
+        categoryState = categoryState,
         onProductClicked = onProductClicked,
-//        onCategoryClicked = onCategoryClicked,
+        onCategoryClicked = onCategoryClicked,
         onSearchTextChanged = onSearchTextChanged,
         searchQuery = searchQuery,
     )
@@ -65,26 +72,32 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     productState: ScreenState<List<Product>>?,
-//    categoryState: ScreenState<List<String>>,
+    categoryState: ScreenState<List<CategoriesItem>>,
     onProductClicked: (ProductUiData) -> Unit,
-//    onCategoryClicked: (String) -> Unit,
+    onCategoryClicked: (String) -> Unit,
     onSearchTextChanged: (String) -> Unit,
     searchQuery: String,
 ) {
+    Log.d("TAG", "HomeScreen: ")
+    Log.d("TAG", "HomeScreenFirst: "+productState)
+    Log.d("TAG", "HomeScreenSecond: "+categoryState)
     Box(modifier = Modifier.fillMaxSize()) {
         when {
-            productState is ScreenState.Success
-//                    && categoryState is ScreenState.Success
+            productState is ScreenState.Success && categoryState is ScreenState.Success
                     -> {
                 SuccessScreen(
                     productUiData = productState.uiData,
-//                    categoryUiData = categoryState.uiData,
-//                    onCategoryClicked = onCategoryClicked,
+                    categoryUiData = categoryState.uiData,
+                    onCategoryClicked = onCategoryClicked,
                     onProductClicked = onProductClicked,
                     onSearchTextChanged = onSearchTextChanged,
                     searchQuery = searchQuery,
                 )
             }
+            productState is ScreenState.Loading || categoryState is ScreenState.Loading -> {
+                Loading()
+            }
+
         }
     }
 }
@@ -93,9 +106,9 @@ fun HomeScreen(
 fun SuccessScreen(
     modifier: Modifier = Modifier,
     productUiData: List<Product>,
-//    categoryUiData: List<String>,
+    categoryUiData: List<CategoriesItem>,
     onProductClicked: (ProductUiData) -> Unit = {},
-//    onCategoryClicked: (String) -> Unit,
+    onCategoryClicked: (String) -> Unit,
     onSearchTextChanged: (String) -> Unit,
     searchQuery: String,
 ){
@@ -136,10 +149,10 @@ fun SuccessScreen(
             placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
         ) {
         }
-//        CategoryList(
-//            categories = categoryUiData,
-//            onCategoryClicked = onCategoryClicked,
-//        )
+        CategoryList(
+            categories = categoryUiData,
+            onCategoryClicked = onCategoryClicked,
+        )
 
         ProductList(
             products = productUiData,

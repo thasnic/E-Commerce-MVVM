@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.ecommercethree.data.dto.CategoriesItem
 import java.util.Locale
 
 @Composable
@@ -33,10 +34,10 @@ fun CategoryItem(name: String, onCategoryClicked: (String) -> Unit){
 }
 
 @Composable
-fun CategoryList(categories: List<String>, onCategoryClicked: (String) -> Unit) {
+fun CategoryList(categories: List<CategoriesItem>, onCategoryClicked: (String) -> Unit) {
     LazyRow {
         items(categories) { category ->
-            CategoryItem(name = category, onCategoryClicked = onCategoryClicked)
+            CategoryItem(name = category.name, onCategoryClicked = onCategoryClicked)
         }
     }
 }
