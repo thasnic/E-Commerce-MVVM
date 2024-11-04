@@ -1,9 +1,11 @@
 package com.example.ecommercethree.ui.screens.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -14,42 +16,54 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.example.ecommercethree.R
+import com.example.ecommercethree.data.dto.Product
 import com.example.ecommercethree.ui.uiData.ProductUiData
 
 @Composable
 fun ProductItem(
-    product: ProductUiData,
+    product: Product,
+//    product: ProductUiData,
     onProductClicked: (ProductUiData) -> Unit,
 ){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp).clickable { onProductClicked(product) },
+            .padding(16.dp)
+            .clickable {
+//                onProductClicked(product)
+            },
         elevation = CardDefaults.cardElevation(5.dp),
         shape = RoundedCornerShape(5.dp),
     ) {
         Column(
-            modifier = Modifier.clickable { onProductClicked.invoke(product) }
+            modifier = Modifier
+                .clickable {
+//                onProductClicked.invoke(product)
+                }
                 .fillMaxWidth()
                 .padding(8.dp),
         ) {
-//            AsyncImage(
-//                model = product.imageUrl,
-//                contentDescription = stringResource(id = R.string.product_image_content),
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(200.dp),
-//                contentScale = ContentScale.Crop,
-//            )
+            AsyncImage(
+                model = product.images[0],
+                contentDescription = stringResource(id = R.string.product_image_content),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                contentScale = ContentScale.Crop,
+            )
 
             Text(
-                text = product.title,
+                text = product.title!!,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = TextStyle(
@@ -97,7 +111,7 @@ fun ProductItem(
 }
 @Composable
 fun ProductList(
-    products: List<ProductUiData>,
+    products: List<Product>,
     onProductClicked: (ProductUiData) -> Unit,
 ) {
     val listState = rememberLazyGridState()
@@ -106,7 +120,7 @@ fun ProductList(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),
     ) {
-        items(products.size, key = { products[it].id }) {
+        items(products.size, key = { products[it].id!! }) {
             ProductItem(
                 product = products[it],
                 onProductClicked = onProductClicked,
@@ -119,13 +133,28 @@ fun ProductList(
 @Preview
 fun PreviewProductItem() {
     ProductItem(
-        product = ProductUiData(
+//        product = ProductUiData(
+//            id = 1,
+//            title = "Product 1",
+//            description = "Product 1 description",
+//            rating = 4.5,
+//            price = "$10",
+//            imageUrl = "imageString",
+//        ),
+         product = Product(
             id = 1,
             title = "Product 1",
             description = "Product 1 description",
             rating = 4.5,
-            price = "$10",
-            imageUrl = "imageString",
+            price = 30.0,
+//            imageUrl = "imageString",
+             brand = "aaaaa",
+             category = "bbbb",
+             discountPercentage = 2.0,
+             thumbnail = "ccc",
+             stock = 23,
+             images = listOf("https://delasign.com/delasignBlack.png")
+
         ),
         onProductClicked = {},
     )

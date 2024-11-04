@@ -19,7 +19,7 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
 //    onBadgeCountChange: (Int) -> Unit
 ){
-    NavHost(navController = navController, startDestination = Splash.route, modifier = modifier) {
+    NavHost(navController = navController, startDestination = Home.route, modifier = modifier) {
         composable(Splash.route) {
             SplashScreen(
 

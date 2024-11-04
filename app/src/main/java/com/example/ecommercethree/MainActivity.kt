@@ -28,7 +28,9 @@ import com.example.ecommercethree.navigation.SignIn
 import com.example.ecommercethree.navigation.SignUp
 import com.example.ecommercethree.navigation.Splash
 import com.example.ecommercethree.ui.theme.EcommerceThreeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

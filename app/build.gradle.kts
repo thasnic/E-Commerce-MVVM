@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id ("kotlin-kapt")
+    id ("kotlin-android")
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
@@ -75,4 +77,44 @@ dependencies {
 //    val nav_version = "2.7.0"
 //
 //    implementation ("androidx.navigation:navigation-compose:$nav_version")
+    // Lifecycle components
+    val lifecycle_version = "2.6.1"
+
+    // viewModel
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // viewModel utilities for Compose
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+    // LiveData
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.5.0")
+
+    // Lifecycles only (without viewModel or LiveData)
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+    // Hilt
+    implementation ("com.google.dagger:hilt-android:2.48")
+    kapt ("com.google.dagger:hilt-compiler:2.48")
+    annotationProcessor ("com.google.dagger:hilt-compiler:2.48")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
+    // Coroutine Lifecycle Scopes
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    // Retrofit with Moshi Converter
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+
+    // GSON
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    // coroutine
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+// Moshi
+    implementation ("com.squareup.moshi:moshi-kotlin:1.15.0")
+
+    //Coil-load image from url
+    implementation ("io.coil-kt:coil-compose:2.4.0")
+
 }

@@ -1,5 +1,6 @@
 package com.example.ecommercethree.ui.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -22,68 +24,78 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Observer
 import com.example.ecommercethree.R
 import com.example.ecommercethree.common.ScreenState
+import com.example.ecommercethree.data.dto.Product
 import com.example.ecommercethree.ui.uiData.ProductUiData
 @Composable
 fun HomeRoute(
     onProductClicked: (ProductUiData) -> Unit,
-//    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
-//    val productState by viewModel.products.observeAsState(initial = ScreenState.Loading)
+    viewModel.getAllProducts()
+    val a = viewModel.products.observeForever{
+
+        Log.d("TAGbbbbb==>", "HomeRoute: "+it)
+    }
+    val productState by viewModel.products.observeAsState(initial = ScreenState.Loading)
 //    val categoryState by viewModel.categories.observeAsState(initial = ScreenState.Loading)
 //    val onCategoryClicked = { category: String ->
 //        viewModel.getProductsByCategory(category)
 //    }
-//    var searchQuery by remember { mutableStateOf("") }
-//    val onSearchTextChanged: (String) -> Unit = { newSearchQuery ->
-//        searchQuery = newSearchQuery
-//        if (newSearchQuery.isNotEmpty()) {
+    var searchQuery by remember { mutableStateOf("") }
+    val onSearchTextChanged: (String) -> Unit = { newSearchQuery ->
+        searchQuery = newSearchQuery
+        if (newSearchQuery.isNotEmpty()) {
 //            viewModel.searchProduct(newSearchQuery)
-//        }
-//    }
+        }
+    }
     HomeScreen(
-//        productState = productState,
+        productState = productState,
 //        categoryState = categoryState,
-//        onProductClicked = onProductClicked,
+        onProductClicked = onProductClicked,
 //        onCategoryClicked = onCategoryClicked,
-//        onSearchTextChanged = onSearchTextChanged,
-//        searchQuery = searchQuery,
+        onSearchTextChanged = onSearchTextChanged,
+        searchQuery = searchQuery,
     )
 }
 
 @Composable
 fun HomeScreen(
-//    productState: ScreenState<List<ProductUiData>>?,
+    productState: ScreenState<List<Product>>?,
 //    categoryState: ScreenState<List<String>>,
-//    onProductClicked: (ProductUiData) -> Unit,
+    onProductClicked: (ProductUiData) -> Unit,
 //    onCategoryClicked: (String) -> Unit,
-//    onSearchTextChanged: (String) -> Unit,
-//    searchQuery: String,
+    onSearchTextChanged: (String) -> Unit,
+    searchQuery: String,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-//        when {
-//            productState is ScreenState.Success && categoryState is ScreenState.Success -> {
-//                SuccessScreen(
-//                    productUiData = productState.uiData,
+        when {
+            productState is ScreenState.Success
+//                    && categoryState is ScreenState.Success
+                    -> {
+                SuccessScreen(
+                    productUiData = productState.uiData,
 //                    categoryUiData = categoryState.uiData,
 //                    onCategoryClicked = onCategoryClicked,
-//                    onProductClicked = onProductClicked,
-//                    onSearchTextChanged = onSearchTextChanged,
-//                    searchQuery = searchQuery,
-//                )
-//            }
-//        }
+                    onProductClicked = onProductClicked,
+                    onSearchTextChanged = onSearchTextChanged,
+                    searchQuery = searchQuery,
+                )
+            }
+        }
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SuccessScreen(
     modifier: Modifier = Modifier,
-    productUiData: List<ProductUiData>,
-    categoryUiData: List<String>,
+    productUiData: List<Product>,
+//    categoryUiData: List<String>,
     onProductClicked: (ProductUiData) -> Unit = {},
-    onCategoryClicked: (String) -> Unit,
+//    onCategoryClicked: (String) -> Unit,
     onSearchTextChanged: (String) -> Unit,
     searchQuery: String,
 ){
@@ -91,7 +103,10 @@ fun SuccessScreen(
     var searchQueryState = searchQuery
     Column(modifier = modifier) {
         androidx.compose.material3.SearchBar(
-            modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).padding(10.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 56.dp)
+                .padding(10.dp),
             query = searchQueryState,
             onQueryChange = onSearchTextChanged,
             onSearch = {
@@ -121,10 +136,10 @@ fun SuccessScreen(
             placeholder = { Text(text = stringResource(id = R.string.search_hint)) },
         ) {
         }
-        CategoryList(
-            categories = categoryUiData,
-            onCategoryClicked = onCategoryClicked,
-        )
+//        CategoryList(
+//            categories = categoryUiData,
+//            onCategoryClicked = onCategoryClicked,
+//        )
 
         ProductList(
             products = productUiData,
