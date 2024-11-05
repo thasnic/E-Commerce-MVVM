@@ -1,14 +1,21 @@
 package com.example.ecommercethree.data.api
 
-import com.example.ecommercethree.data.dto.Categories
 import com.example.ecommercethree.data.dto.CategoriesItem
+import com.example.ecommercethree.data.dto.Product
 import com.example.ecommercethree.data.dto.Products
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("products")
     suspend fun getProductsListFromApi(): Products
+
+    @GET("products/search")
+    suspend fun getProductsListBySearchFromApi(@Query("q") query: String): Products
+
+    @GET("products/{id}")
+    suspend fun getSingleProductByIdFromApi(@Path("id") productId: Int): Product
     @GET("products/categories")
     suspend fun getAllCategoriesListFromApi(): List<CategoriesItem>
     @GET("products/category/{categoryName}")

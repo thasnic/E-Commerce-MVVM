@@ -1,5 +1,6 @@
 package com.example.ecommercethree.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -8,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.example.ecommercethree.ui.screens.auth.SignInRoute
 import com.example.ecommercethree.ui.screens.auth.SignUpRoute
 import com.example.ecommercethree.ui.screens.cart.CartRoute
+import com.example.ecommercethree.ui.screens.detail.DetailRoute
 import com.example.ecommercethree.ui.screens.favorite.FavoriteRoute
 import com.example.ecommercethree.ui.screens.home.HomeRoute
 import com.example.ecommercethree.ui.screens.profile.ProfileRoute
@@ -32,9 +34,15 @@ fun AppNavHost(
         composable(Home.route) {
             HomeRoute(
                 onProductClicked = {
-//                    val route = "${ProductDetail.route}/${it.id}"
-//                    navController.navigate(route = route)
+                    Log.d("TAG", "AppNavHost: product clicked"+it)
+                    val route = "${ProductDetail.route}/${it.id}"
+                    navController.navigate(route = route)
                 },
+            )
+        }
+        composable(ProductDetail.routeWithArgs, arguments = ProductDetail.arguments) {
+            DetailRoute(
+//                onBadgeCountChange = onBadgeCountChange,
             )
         }
 

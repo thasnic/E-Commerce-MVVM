@@ -28,6 +28,7 @@ class HomeViewModel @Inject constructor(
     init {
         getAllProducts()
         getAllCategory()
+//        searchProduct("abc")
     }
     fun getAllProducts(){
         _products.postValue(ScreenState.Loading)
@@ -37,11 +38,8 @@ class HomeViewModel @Inject constructor(
 //            Log.d("TAGqqqqqqqq", "getAllProducts: "+result.toString())
             if (result!= null){
 //                val product: Products = result
-
                 _products.postValue(ScreenState.Success(result.products))
-
             }
-
 //            _products.postValue("sfsdf")
         }
     }
@@ -58,6 +56,15 @@ class HomeViewModel @Inject constructor(
             val result = apiService.getProductsListByCategoryNameFromApi(categoryName)
 //            Log.d("TAG", "getProductsByCategory:zzzzz "+result)
 
+            _products.postValue(ScreenState.Success(result.products))
+        }
+    }
+    fun searchProduct(query: String){
+//        _products.postValue(ScreenState.Loading)
+        GlobalScope.launch {
+            Log.d("TAGSearch", "searchProduct: ")
+            val result = apiService.getProductsListBySearchFromApi(query)
+            Log.d("TAGSearch", "searchProduct: "+result)
             _products.postValue(ScreenState.Success(result.products))
         }
     }

@@ -34,21 +34,21 @@ import com.example.ecommercethree.ui.Loading
 import com.example.ecommercethree.ui.uiData.ProductUiData
 @Composable
 fun HomeRoute(
-    onProductClicked: (ProductUiData) -> Unit,
+    onProductClicked: (Product) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
 //    viewModel.getAllProducts()
 //    viewModel.getAllCategory()
 //    viewModel.getProductsByCategory("beauty")
     val a = viewModel.products.observeForever{
-        Log.d("TAGbbbbb==>", "HomeRoute: "+it)
+//        Log.d("TAGbbbbb==>", "HomeRoute: "+it)
     }
     val productState by viewModel.products.observeAsState(initial = ScreenState.Loading)
     val categoryState by viewModel.categories.observeAsState(initial = ScreenState.Loading)
-    Log.d("TAG", "HomeRoute: Category"+categoryState)
+//    Log.d("TAG", "HomeRoute: Category"+categoryState)
     val onCategoryClicked = { category: String ->
         viewModel.getProductsByCategory(category)
-        println("clickedaaaaaaaaaaaa"+category)
+//        println("clickedaaaaaaaaaaaa"+category)
 
 //        Log.d("TAG", "HomeRoute: clicked")
     }
@@ -56,7 +56,8 @@ fun HomeRoute(
     val onSearchTextChanged: (String) -> Unit = { newSearchQuery ->
         searchQuery = newSearchQuery
         if (newSearchQuery.isNotEmpty()) {
-//            viewModel.searchProduct(newSearchQuery)
+            Log.d("TAGsearch", "HomeRoute: "+newSearchQuery)
+            viewModel.searchProduct(newSearchQuery)
         }
     }
     HomeScreen(
@@ -73,14 +74,14 @@ fun HomeRoute(
 fun HomeScreen(
     productState: ScreenState<List<Product>>?,
     categoryState: ScreenState<List<CategoriesItem>>,
-    onProductClicked: (ProductUiData) -> Unit,
+    onProductClicked: (Product) -> Unit,
     onCategoryClicked: (String) -> Unit,
     onSearchTextChanged: (String) -> Unit,
     searchQuery: String,
 ) {
-    Log.d("TAG", "HomeScreen: ")
-    Log.d("TAG", "HomeScreenFirst: "+productState)
-    Log.d("TAG", "HomeScreenSecond: "+categoryState)
+//    Log.d("TAG", "HomeScreen: ")
+//    Log.d("TAG", "HomeScreenFirst: "+productState)
+//    Log.d("TAG", "HomeScreenSecond: "+categoryState)
     Box(modifier = Modifier.fillMaxSize()) {
         when {
             productState is ScreenState.Success && categoryState is ScreenState.Success
@@ -107,7 +108,7 @@ fun SuccessScreen(
     modifier: Modifier = Modifier,
     productUiData: List<Product>,
     categoryUiData: List<CategoriesItem>,
-    onProductClicked: (ProductUiData) -> Unit = {},
+    onProductClicked: (Product) -> Unit = {},
     onCategoryClicked: (String) -> Unit,
     onSearchTextChanged: (String) -> Unit,
     searchQuery: String,

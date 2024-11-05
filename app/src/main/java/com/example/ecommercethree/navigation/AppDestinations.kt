@@ -1,5 +1,8 @@
 package com.example.ecommercethree.navigation
 
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+
 interface AppDestinations {
     val route: String
 }
@@ -19,6 +22,16 @@ object Profile : AppDestinations {
 object SignIn : AppDestinations {
     override val route = "signIn"
 }
+object ProductDetail : AppDestinations {
+    override val route = "productDetail"
+
+    private const val PRODUCT_ID = "productId"
+    val routeWithArgs = "$route/{$PRODUCT_ID}"
+    val arguments = listOf(
+        navArgument(PRODUCT_ID) { type = NavType.IntType },
+    )
+}
+
 
 object SignUp : AppDestinations {
     override val route = "signUp"

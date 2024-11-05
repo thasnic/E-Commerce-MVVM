@@ -31,16 +31,18 @@ import com.example.ecommercethree.ui.uiData.ProductUiData
 
 @Composable
 fun ProductItem(
-    product: Product,
+
 //    product: ProductUiData,
-    onProductClicked: (ProductUiData) -> Unit,
+//    onProductClicked: (ProductUiData) -> Unit,
+    product: Product,
+    onProductClicked: (Product) -> Unit,
 ){
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
             .clickable {
-//                onProductClicked(product)
+                onProductClicked(product)
             },
         elevation = CardDefaults.cardElevation(5.dp),
         shape = RoundedCornerShape(5.dp),
@@ -48,7 +50,7 @@ fun ProductItem(
         Column(
             modifier = Modifier
                 .clickable {
-//                onProductClicked.invoke(product)
+                onProductClicked.invoke(product)
                 }
                 .fillMaxWidth()
                 .padding(8.dp),
@@ -112,7 +114,7 @@ fun ProductItem(
 @Composable
 fun ProductList(
     products: List<Product>,
-    onProductClicked: (ProductUiData) -> Unit,
+    onProductClicked: (Product) -> Unit,
 ) {
     val listState = rememberLazyGridState()
     LazyVerticalGrid(
